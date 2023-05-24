@@ -124,7 +124,16 @@ def file_upload(request):
 # Event 管理
 def event_list(request):
     event_list =Event.objects.all()
-    return JsonResponse({"code":0,"event_list":event_list})
+    data_info =[]
+    for event in event_list:
+        content ={}
+        content["id"] = event.id
+        content["content"] = event.content
+        content["comment"] = event.comment
+        content["create_time"] = event.create_time
+        content["status"] = event.status
+        data_info.append(content)
+    return JsonResponse({"code":0,"event_list":data_info})
 
 
 def event_add(request):
