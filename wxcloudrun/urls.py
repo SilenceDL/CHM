@@ -26,6 +26,12 @@ urlpatterns = (
     url(r'(/)?$', views.index),
     path("login/", views.login),
     path("register/",views.register),
+    path("event/list/",views.event_list),
+path("event/add/",views.event_add),
+path("event/delete/",views.event_delete),
+path("event/edit/",views.event_edit),
+path("event/search/",views.event_search),
+    path("file_upload/",views.file_upload)
 
 
 
