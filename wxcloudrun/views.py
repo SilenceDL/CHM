@@ -89,3 +89,67 @@ def update_count(request):
     else:
         return JsonResponse({'code': -1, 'errorMsg': 'action参数错误'},
                     json_dumps_params={'ensure_ascii': False})
+
+
+from wxcloudrun.models import User,Event
+# 登录
+def login(request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    username_obj = User.objects.filter(username=username).first()
+    if not username_obj:
+        return JsonResponse({"code":-1,"errorMsg":"用户不存在"})
+    user_obj = User.objects.filter(**{"username":"username","password":"password"}).first()
+    if not user_obj:
+        return JsonResponse({"code":-1, "errorMsg": "用户名或密码错误"})
+    return JsonResponse({"code":0,"userinfo":user_obj})
+#注册
+def register(request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    username_obj = User.objects.filter(username=username).first()
+    if username_obj:
+        return JsonResponse({"code": -1, "errorMsg": "用户已存在"})
+    User.objects.create(username=username,password=password)
+    return JsonResponse({"code":"0"})
+
+
+
+# 文件上传
+def file_upload(request):
+    pass
+
+
+
+# Event 管理
+def event_list(request):
+    event_list =Event.objects.all()
+    return JsonResponse({"code":0,"event_list":event_list})
+
+
+def event_add(request):
+    content = request.POST.get("content");
+    comment = request.POST.get("comment");
+    status = request.POST.get("status")
+    user_type = request.POST.get("user_type")
+    Event.objects.create(content=content, comment=comment, status=status)
+    return JsonResponse({"code": 0, "user_type": user_type})
+
+def event_delete(request):
+    id = request.POST.get("id");
+    user_type = request.POST.get("user_type")
+    Event.objects.filter(id=id).delete()
+    return JsonResponse({"code": 0, "user_type": user_type})
+
+def event_edit(request):
+    id = request.POST.get("id");
+    content = request.POST.get("content");
+    comment = request.POST.get("comment");
+    status = request.POST.get("status")
+    user_type = request.POST.get("user_type")
+    Event.objects.filter(id=id).update(content=content,comment=comment,status=status)
+    return JsonResponse({"code":0,"user_type": user_type})
+
+
+def event_search():
+    pass
