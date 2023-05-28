@@ -130,10 +130,12 @@ def file_upload(request):
 # Event 管理
 def event_list(request):
     status_id = int(request.GET.get("status_id"))
-    if status_id == 0:
-        event_list = Event.objects.filter(status=0)
+    if status_id == 1:
+        event_list = Event.objects.filter(status=1).order_by("-create_time")
+    elif status_id == 0:
+        event_list = Event.objects.all().order_by("-create_time")
     else:
-        event_list = Event.objects.exclude(status=0)
+        event_list = Event.objects.exclude(status=1).order_by("-create_time")
     data_info = []
     for event in event_list:
         content = {}
@@ -170,11 +172,11 @@ def event_edit(request):
     postBody = request.body
     json_result = json.loads(postBody)
     id = json_result["id"]
-    content = json_result["content"]
+
     comment = json_result["comment"]
-    status = json_result["status"]
+
     user_type = json_result["user_type"]
-    Event.objects.filter(id=id).update(content=content,comment=comment,status=status)
+    Event.objects.filter(id=id).update(comment=comment,status=user_type)
     return JsonResponse({"code":0,"user_type": user_type})
 
 
