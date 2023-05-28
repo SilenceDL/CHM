@@ -97,7 +97,7 @@ def login(request):
     postBody = request.body
     json_result = json.loads(postBody)
     username = json_result["username"]
-    password = json["password"]
+    password = json_result["password"]
     username_obj = User.objects.filter(username=username).first()
     if not username_obj:
         return JsonResponse({"code":-1,"errorMsg":"用户不存在"})
@@ -110,7 +110,7 @@ def register(request):
     postBody = request.body
     json_result = json.loads(postBody)
     username = json_result["username"]
-    password = json["password"]
+    password = json_result["password"]
     username_obj = User.objects.filter(username=username).first()
     if username_obj:
         return JsonResponse({"code": -1, "errorMsg": "用户已存在"})
