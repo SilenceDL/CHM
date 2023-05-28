@@ -14,13 +14,13 @@ class Counters(models.Model):
         return self.title
 
     class Meta:
-        db_table = 'Counters'  # 数据库表名
+        db_table = 'Counters'  
 
 class User(models.Model):
     id = models.AutoField
     username = models.CharField(max_length=64)
     password = models.CharField(max_length=64)
-    # 1,2,3,4
+
     user_type = models.IntegerField(max_length=11)
 
 class Event(models.Model):
@@ -28,5 +28,5 @@ class Event(models.Model):
     content = models.TextField()
     comment = models.TextField()
     create_time = models.DateTimeField(max_length=128)
-    # 1,2,3,4
+
     status = models.IntegerField(max_length=11)
