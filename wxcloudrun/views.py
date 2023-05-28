@@ -94,8 +94,10 @@ def update_count(request):
 from wxcloudrun.models import User,Event
 # 登录
 def login(request):
-    username = request.POST.get("username")
-    password = request.POST.get("password")
+    postBody = request.body
+    json_result = json.loads(postBody)
+    username = json_result["username"]
+    password = json["password"]
     username_obj = User.objects.filter(username=username).first()
     if not username_obj:
         return JsonResponse({"code":-1,"errorMsg":"用户不存在"})
@@ -105,8 +107,10 @@ def login(request):
     return JsonResponse({"code":0,"userinfo":user_obj})
 #注册
 def register(request):
-    username = request.POST.get("username")
-    password = request.POST.get("password")
+    postBody = request.body
+    json_result = json.loads(postBody)
+    username = json_result["username"]
+    password = json["password"]
     username_obj = User.objects.filter(username=username).first()
     if username_obj:
         return JsonResponse({"code": -1, "errorMsg": "用户已存在"})
@@ -141,25 +145,33 @@ def event_list(request):
 
 
 def event_add(request):
-    content = request.POST.get("content");
-    comment = request.POST.get("comment");
-    status = request.POST.get("status")
-    user_type = request.POST.get("user_type")
+    postBody = request.body
+    json_result = json.loads(postBody)
+
+    content =json_result["content"]
+    comment = json_result["comment"]
+    status = json_result["status"]
+    user_type = json_result["user_type"]
     Event.objects.create(content=content, comment=comment, status=status)
     return JsonResponse({"code": 0, "user_type": user_type})
 
 def event_delete(request):
-    id = request.POST.get("id");
-    user_type = request.POST.get("user_type")
+    postBody = request.body
+    json_result = json.loads(postBody)
+
+    id = json_result["id"]
+    user_type = json_result["user_type"]
     Event.objects.filter(id=id).delete()
     return JsonResponse({"code": 0, "user_type": user_type})
 
 def event_edit(request):
-    id = request.POST.get("id");
-    content = request.POST.get("content");
-    comment = request.POST.get("comment");
-    status = request.POST.get("status")
-    user_type = request.POST.get("user_type")
+    postBody = request.body
+    json_result = json.loads(postBody)
+    id = json_result["id"]
+    content = json_result["content"]
+    comment = json_result["comment"]
+    status = json_result["status"]
+    user_type = json_result["user_type"]
     Event.objects.filter(id=id).update(content=content,comment=comment,status=status)
     return JsonResponse({"code":0,"user_type": user_type})
 
