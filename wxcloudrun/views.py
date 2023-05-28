@@ -123,21 +123,21 @@ def file_upload(request):
 
 # Event 管理
 def event_list(request):
-    status_id = request.POST.get("status_id")
+    status_id = int(request.GET.get("status_id"))
     if status_id == 0:
-        event_list =Event.objects.filter(status=0)
+        event_list = Event.objects.filter(status=0)
     else:
         event_list = Event.objects.exclude(status=0)
-    data_info =[]
+    data_info = []
     for event in event_list:
-        content ={}
+        content = {}
         content["id"] = event.id
         content["content"] = event.content
         content["comment"] = event.comment
         content["create_time"] = event.create_time
         content["status"] = event.status
         data_info.append(content)
-    return JsonResponse({"code":0,"event_list":data_info})
+    return JsonResponse({"code": 0, "event_list": data_info})
 
 
 def event_add(request):
