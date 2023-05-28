@@ -100,13 +100,12 @@ def login(request):
     password = json_result["password"]
     print(json_result,username,password)
     username_obj = User.objects.filter(username=username).first()
-    print(username_obj)
     if not username_obj:
         return JsonResponse({"code":-1,"errorMsg":"用户不存在"})
     user_obj = User.objects.filter(**{"username":username,"password":password}).first()
     if not user_obj:
         return JsonResponse({"code":-1, "errorMsg": "用户名或密码错误"})
-    return JsonResponse({"code":0,"userinfo":user_obj})
+    return JsonResponse({"code":0,"user_info":{"user_type":user_obj.user_type,"username":username}})
 #注册
 def register(request):
     postBody = request.body
