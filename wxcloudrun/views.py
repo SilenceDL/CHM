@@ -98,6 +98,7 @@ def login(request):
     json_result = json.loads(postBody)
     username = json_result["username"]
     password = json_result["password"]
+    print(json_result,username,password)
     username_obj = User.objects.filter(username=username).first()
     if not username_obj:
         return JsonResponse({"code":-1,"errorMsg":"用户不存在"})
