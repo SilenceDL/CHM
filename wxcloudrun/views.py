@@ -99,7 +99,7 @@ def login(request):
     username_obj = User.objects.filter(username=username).first()
     if not username_obj:
         return JsonResponse({"code":-1,"errorMsg":"用户不存在"})
-    user_obj = User.objects.filter(**{"username":"username","password":"password"}).first()
+    user_obj = User.objects.filter(**{"username":username,"password":password}).first()
     if not user_obj:
         return JsonResponse({"code":-1, "errorMsg": "用户名或密码错误"})
     return JsonResponse({"code":0,"userinfo":user_obj})

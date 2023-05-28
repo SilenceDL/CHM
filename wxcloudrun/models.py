@@ -14,7 +14,7 @@ class Counters(models.Model):
         return self.title
 
     class Meta:
-        db_table = 'Counters'  
+        db_table = 'Counters'
 
 class User(models.Model):
     id = models.AutoField
