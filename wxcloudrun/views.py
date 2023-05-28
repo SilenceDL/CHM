@@ -112,11 +112,12 @@ def register(request):
     json_result = json.loads(postBody)
     username = json_result["username"]
     password = json_result["password"]
+    user_type = json_result["user_type"]
     username_obj = User.objects.filter(username=username).first()
     if username_obj:
         return JsonResponse({"code": -1, "errorMsg": "用户已存在"})
-    User.objects.create(username=username,password=password)
-    return JsonResponse({"code":"0"})
+    User.objects.create(username=username,password=password,user_type=user_type)
+    return JsonResponse({"code":"0","user_info":{"user_type":user_type,"username":username}})
 
 
 
