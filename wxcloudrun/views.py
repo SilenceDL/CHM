@@ -145,7 +145,7 @@ def event_list(request):
         data_info.append(content)
     return JsonResponse({"code": 0, "event_list": data_info})
 
-
+import datetime
 def event_add(request):
     postBody = request.body
     json_result = json.loads(postBody)
@@ -153,9 +153,9 @@ def event_add(request):
     content =json_result["content"]
     comment = json_result["comment"]
     status = json_result["status"]
-    user_type = json_result["user_type"]
-    Event.objects.create(content=content, comment=comment, status=status)
-    return JsonResponse({"code": 0, "user_type": user_type})
+    create_time = datetime.datetime.now()
+    Event.objects.create(content=content, comment=comment, status=status,create_time=create_time)
+    return JsonResponse({"code": 0})
 
 def event_delete(request):
     postBody = request.body
