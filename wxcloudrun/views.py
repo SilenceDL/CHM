@@ -123,7 +123,11 @@ def file_upload(request):
 
 # Event 管理
 def event_list(request):
-    event_list =Event.objects.all()
+    status_id = request.POST.get("status_id")
+    if status_id == 0:
+        event_list =Event.objects.filter(status=0)
+    else:
+        event_list = Event.objects.exclude(status=0)
     data_info =[]
     for event in event_list:
         content ={}
